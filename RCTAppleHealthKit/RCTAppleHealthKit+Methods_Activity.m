@@ -35,15 +35,25 @@
                                            limit:HKObjectQueryNoLimit
                             includeManuallyAdded:includeManuallyAdded
                                       completion:^(NSArray *results, NSError *error) {
-                                          if(results){
-                                              callback(@[[NSNull null], results]);
-                                              return;
-                                          } else {
-                                              NSLog(@"error getting active energy burned samples: %@", error);
-                                              callback(@[RCTMakeError(@"error getting active energy burned samples:", error, nil)]);
-                                              return;
-                                          }
-                                      }];
+                                        if(results){
+                                            double activitySum = 0;
+
+                                            for (NSDictionary *item in results)
+                                            {
+                                              activitySum += [[item valueForKey:@"value"] doubleValue];
+                                            }
+                                  
+                                            NSDictionary *response = @{
+                                                @"total" : @(activitySum),
+                                            };
+
+                                            callback(@[[NSNull null], response]);
+                                            return;
+                                        } else {
+                                            callback(@[RCTJSErrorFromNSError(error)]);
+                                            return;
+                                        }
+                                    }];
 }
 
 - (void)activity_getBasalEnergyBurned:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback
