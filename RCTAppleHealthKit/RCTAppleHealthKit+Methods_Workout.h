@@ -13,5 +13,6 @@
 - (void)workout_getAnchoredQuery:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 - (void)workout_save: (NSDictionary *)input callback: (RCTResponseSenderBlock)callback;
 - (void)workout_getRoute:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
+- (void)workout_saveActiveEnergy:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback;
 
 @end

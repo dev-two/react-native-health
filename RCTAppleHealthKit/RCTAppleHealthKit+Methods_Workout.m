@@ -150,4 +150,27 @@
 
     [self.healthStore saveObject:workout withCompletion:completion];
 }
+
+- (void)workout_saveActiveEnergy: (NSDictionary *)input callback: (RCTResponseSenderBlock)callback {
+    HKWorkoutActivityType type = [RCTAppleHealthKit hkWorkoutActivityTypeFromOptions:input key:@"type" withDefault:HKWorkoutActivityTypeAmericanFootball];
+    NSDate *startDate = [RCTAppleHealthKit dateFromOptions:input key:@"startDate" withDefault:nil];
+    NSDate *endDate = [RCTAppleHealthKit dateFromOptions:input key:@"endDate" withDefault:nil];
+    HKQuantity *totalEnergyBurned = [RCTAppleHealthKit hkQuantityFromOptions:input valueKey:@"energyBurned" unitKey:@"energyBurnedUnit"];
+
+
+    HKQuantitySample* activeEnergy = [HKQuantitySample quantitySampleWithType:[HKQuantityType quantityTypeForIdentifier:HKQuantityTypeIdentifierActiveEnergyBurned]
+                                                                quantity:totalEnergyBurned
+                                                                startDate:startDate
+                                                                endDate:endDate
+                                                                metadata:nil];
+
+    [self.healthStore saveObject:activeEnergy withCompletion:^(BOOL success, NSError *error) {
+        if (!success) {
+            NSLog(@"An error occured saving the water active energy %@. The error was: ", error);
+            callback(@[RCTMakeError(@"An error occured saving active energy", error, nil)]);
+            return;
+        }
+        callback(@[[NSNull null], @true]);
+    }];
+}
 @end

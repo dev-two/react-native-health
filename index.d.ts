@@ -352,6 +352,11 @@ declare module 'react-native-health' {
       callback: (error: string, result: HealthValue) => void,
     ): void
 
+    saveActiveEnergy(
+      options: HealthActivityOptions,
+      callback: (error: string, result: HealthValue) => void,
+    ): void
+
     getAuthStatus(
       permissions: HealthKitPermissions,
       callback: (err: string, results: HealthStatusResult) => void,

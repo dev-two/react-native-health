@@ -491,6 +491,12 @@ RCT_EXPORT_METHOD(saveWorkout:(NSDictionary *)input callback:(RCTResponseSenderB
     [self workout_save:input callback:callback];
 }
 
+RCT_EXPORT_METHOD(saveActiveEnergy:(NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
+{
+    [self _initializeHealthStore];
+    [self workout_saveActiveEnergy:input callback:callback];
+}
+
 RCT_EXPORT_METHOD(getAuthStatus: (NSDictionary *)input callback:(RCTResponseSenderBlock)callback)
 {
     [self _initializeHealthStore];
